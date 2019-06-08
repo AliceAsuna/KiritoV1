@@ -1,8 +1,12 @@
 package com.alice.springboot.controller;
 
 import com.alice.springboot.constants.ResponseStatusEnum;
+import com.alice.springboot.entity.FieldEntity;
+import com.alice.springboot.mapper.test.TableHeaderMapper;
 import com.alice.springboot.model.MultiLevelHeaderVO;
 import com.alice.springboot.model.ResponseResult;
+import com.alice.springboot.service.ITableHeaderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,13 +21,16 @@ import java.util.List;
 @RequestMapping(value = "/alice/excel")
 @RestController
 public class ExcelOperationController {
+    @Autowired
+    private ITableHeaderService tableHeaderService;
 
     @RequestMapping(value = "/export", method = RequestMethod.GET)
-    public ResponseResult<String> exportExcel(HttpServletResponse response)
+    public ResponseResult<List<FieldEntity>> exportExcel(HttpServletResponse response)
     {
-        ResponseResult<String> result = new ResponseResult<>();
+        ResponseResult<List<FieldEntity>> result = new ResponseResult<>();
 
         try {
+            List<FieldEntity> datas = tableHeaderService.getTableFieldByCategory("people");
             //List<MultiLevelHeaderVO> tableHeaders = new LinkedList<>();
             //MultiLevelHeaderVO temp1 = new MultiLevelHeaderVO();
             //temp1.setFieldName("first");
@@ -49,7 +56,7 @@ public class ExcelOperationController {
             //response.setContenType("application/vnd.ms-excel;charset=UTF-8");
             //response.setHeader("Content-disposition", "atachment;filename=" + excelName + ".xls");
             //response.setCharacterEncoding("utf-8");
-
+            result.setData(datas);
             result.setCode("200");
             result.setMessage("导出成功");
             result.setStatus(ResponseStatusEnum.SUCCESS);

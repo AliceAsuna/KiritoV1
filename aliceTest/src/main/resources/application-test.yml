@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    test:
+        #type: org.apache.commons.dbcp2.BasicDataSource
+        #type: org.apache.tomcat.jdbc.pool.DataSource
+        #type: org.apache.commons.dbcp.BasicDataSource
+        #type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://localhost:3306/alice_test?useUnicode=true&characterEncoding=utf8
+        driverClassName: com.mysql.jdbc.Driver
+        username: root
+        password: soraSR11
+
+    test_two:
+        #type: org.apache.commons.dbcp2.BasicDataSource
+        #type: org.apache.tomcat.jdbc.pool.DataSource
+        #type: org.apache.commons.dbcp.BasicDataSource
+        #type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://localhost:3306/alice_test?useUnicode=true&characterEncoding=utf8
+        driverClassName: com.mysql.jdbc.Driver
+        username: root
+        password: soraSR11
+
+          typeAliasesPackage: com.alice.springboot.entity
+          typeAliasesPackage: com.alice.springboot.model
+          mapperLocations: classpath:mapper/*.xml
+
+
