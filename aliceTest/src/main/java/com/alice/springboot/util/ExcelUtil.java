@@ -4,17 +4,11 @@ import com.alice.springboot.constants.Constants;
 import com.alice.springboot.model.KeyValueVO;
 import com.alice.springboot.model.MultiLevelHeaderVO;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.formula.functions.T;
-import org.apache.poi.ss.usermodel.Color;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.springframework.jca.cci.CciOperationNotSupportedException;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
-import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -296,7 +290,7 @@ public class ExcelUtil {
     }
 
     private static <T> void writeExcelCell(HSSFWorkbook excel, HSSFSheet sheet, List<String> actualFields,
-                                           int startRow, List<T> datas) throws Exception
+                                           int startRow, List<T> datas, List<KeyValueVO> specialFields) throws Exception
     {
         HSSFCellStyle cellStyle = excel.createCellStyle();
         cellStyle.setWrapText(true);
@@ -318,7 +312,7 @@ public class ExcelUtil {
 
                 String methodName = "get" + StringUtil.getInitialsUp(actualField);
                 Method getMethod = clazz.getMethod(methodName);
-                setCellValue(sheet, cell, getMethod, actualField, cellSubScript, data, null);
+                setCellValue(sheet, cell, getMethod, actualField, cellSubScript, data, specialFields);
                 cellSubScript++;
             }
             startRow++;
@@ -326,7 +320,17 @@ public class ExcelUtil {
 
     }
 
-    public static <T> HSSFWorkbook getExcel2003(List<MultiLevelHeaderVO> tableHeaders, List<T> datas) throws Exception
+    /**
+     * 获取2003版Excel
+     * @param tableHeaders 表头信息
+     * @param datas 数据
+     * @param specialFields 需要特殊处理的数据，如某一列需要加超链接
+     * @param <T> 泛型
+     * @return Excel
+     * @throws Exception 异常
+     */
+    public static <T> HSSFWorkbook getExcel2003(List<MultiLevelHeaderVO> tableHeaders, List<T> datas,
+                                                List<KeyValueVO> specialFields) throws Exception
     {
         if (CommonUtil.isEmpty(tableHeaders))
         {
@@ -346,7 +350,7 @@ public class ExcelUtil {
 
         List<String> actualFields = getActualFields(tableHeaders);
 
-        writeExcelCell(excel, sheet, actualFields, maxDeep, datas);
+        writeExcelCell(excel, sheet, actualFields, maxDeep, datas, specialFields);
 
         return excel;
     }
