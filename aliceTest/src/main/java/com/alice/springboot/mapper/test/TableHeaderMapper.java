@@ -14,4 +14,11 @@ public interface TableHeaderMapper {
      * @return 表头信息
      */
     List<FieldEntity> getTableHeaderFieldByCategory(String category);
+
+    /**
+     * 根据模块获取Excel表头信息
+     * @param category 模块
+     * @return 表头信息
+     */
+    List<FieldEntity> getExcelHeaderFieldByCategory(String category);
 }

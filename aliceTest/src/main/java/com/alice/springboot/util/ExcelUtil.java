@@ -88,13 +88,39 @@ public class ExcelUtil {
         return width * Constants.THREE / Constants.TWO;
     }
 
+    private static int getChildrenMaxCount(MultiLevelHeaderVO tableHeader)
+    {
+        if (tableHeader == null)
+        {
+            return 0;
+        }
+
+        if (CommonUtil.isEmpty(tableHeader.getChildrenHeader()))
+        {
+            return 1;
+        }
+
+        int maxCount = tableHeader.getChildrenHeader().size();
+
+        for (MultiLevelHeaderVO tableHeaderChildren : tableHeader.getChildrenHeader())
+        {
+            int childrenCount = getChildrenMaxCount(tableHeaderChildren);
+
+            if (maxCount <= childrenCount)
+            {
+                maxCount = childrenCount;
+            }
+        }
+        return maxCount;
+    }
+
     private static int getTableHeaderColspan(MultiLevelHeaderVO tableHeader)
     {
         if (tableHeader.getColspan() > 0)
         {
             return tableHeader.getColspan();
         }
-        return 1;
+        return getChildrenMaxCount(tableHeader);
     }
 
     private static int getTableHeaderRowspan(MultiLevelHeaderVO tableHeader)
@@ -192,6 +218,7 @@ public class ExcelUtil {
 
                 sheet.setColumnWidth(colStart, getSuitableCellWidth(tableHeader.getFieldLabel()));
                 headerCell.setCellStyle(cellStyle);
+                headerCell.setCellValue(tableHeader.getFieldLabel());
 
                 colStart = colStart + colspan;
             }

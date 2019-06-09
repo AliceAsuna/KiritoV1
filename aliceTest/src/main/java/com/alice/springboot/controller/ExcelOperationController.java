@@ -6,12 +6,15 @@ import com.alice.springboot.mapper.test.TableHeaderMapper;
 import com.alice.springboot.model.MultiLevelHeaderVO;
 import com.alice.springboot.model.ResponseResult;
 import com.alice.springboot.service.ITableHeaderService;
+import com.alice.springboot.util.ExcelUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,46 +28,26 @@ public class ExcelOperationController {
     private ITableHeaderService tableHeaderService;
 
     @RequestMapping(value = "/export", method = RequestMethod.GET)
-    public ResponseResult<List<FieldEntity>> exportExcel(HttpServletResponse response)
+    public ResponseResult<List<FieldEntity>> exportExcel(String category, HttpServletResponse response)
     {
         ResponseResult<List<FieldEntity>> result = new ResponseResult<>();
 
         try {
-            List<FieldEntity> datas = tableHeaderService.getTableFieldByCategory("people");
-            //List<MultiLevelHeaderVO> tableHeaders = new LinkedList<>();
-            //MultiLevelHeaderVO temp1 = new MultiLevelHeaderVO();
-            //temp1.setFieldName("first");
-            //temp1.setFieldLabel("一级表头");
-            //MultiLevelHeaderVO temp2 = new MultiLevelHeaderVO();
-            //temp2.setFieldName("first");
-            //temp2.setFieldLabel("一级表头2");
-            //MultiLevelHeaderVO temp3 = new MultiLevelHeaderVO();
-            //temp3.setFieldName("first");
-            //temp3.setFieldLabel("一级表头3");
-            //MultiLevelHeaderVO temp4 = new MultiLevelHeaderVO();
-            //temp4.setFieldName("first");
-            //temp4.setFieldLabel("一级表头4");
-            //MultiLevelHeaderVO temp5 = new MultiLevelHeaderVO();
-            //temp5.setFieldName("first");
-            //temp5.setFieldLabel("一级表头5");
-            //tableHeaders.add(temp1);
-            //tableHeaders.add(temp2);
-            //tableHeaders.add(temp3);
-            //tableHeaders.add(temp4);
-            //tableHeaders.add(temp5);
+            List<MultiLevelHeaderVO> tableHeaders = tableHeaderService.getExcelFieldByCategory(category);
+            HSSFWorkbook excel = ExcelUtil.getExcel2003(tableHeaders, null);
 
-            //response.setContenType("application/vnd.ms-excel;charset=UTF-8");
-            //response.setHeader("Content-disposition", "atachment;filename=" + excelName + ".xls");
-            //response.setCharacterEncoding("utf-8");
-            result.setData(datas);
-            result.setCode("200");
-            result.setMessage("导出成功");
-            result.setStatus(ResponseStatusEnum.SUCCESS);
+            response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+            response.setHeader("Content-disposition", "atachment;filename=" + "测试" + ".xls");
+            response.setCharacterEncoding("utf-8");
 
+            OutputStream output = response.getOutputStream();
+            excel.write(output);
+            output.flush();
+            output.close();
+            excel.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return result;
+        return null;
     }
 }

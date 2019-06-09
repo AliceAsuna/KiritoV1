@@ -18,7 +18,17 @@ public class FieldEntity {
 
     private String parentField;
 
+    private int headerLevel;
+
     private String category;
+
+    public int getHeaderLevel() {
+        return headerLevel;
+    }
+
+    public void setHeaderLevel(int headerLevel) {
+        this.headerLevel = headerLevel;
+    }
 
     public String getFieldName() {
         return fieldName;

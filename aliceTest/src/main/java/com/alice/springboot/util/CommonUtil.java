@@ -25,6 +25,20 @@ public class CommonUtil {
 
     /**
      * 判断对象是不是null
+     * @param string 对象
+     * @return 是否为空
+     */
+    public static boolean isEmpty(String string)
+    {
+        if (null == string || string.isEmpty())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断对象是不是null
      * @param list list
      * @return 是否为空
      */
