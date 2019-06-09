@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alice.springboot.mapper.testTwo.TableHeaderTwoMapper">
+
+    <select id="getTableHeaderFieldByCategory" resultType="com.alice.springboot.entity.FieldEntity">
+        select * from alice_table_header where category = #{param1} order by labelIndex;
+    </select>
+
+    <select id="getExcelHeaderFieldByCategory" resultType="com.alice.springboot.entity.FieldEntity">
+        select * from alice_table_header where isExportField = 1 and category = #{param1} order by exportIndex;
+    </select>
+</mapper>

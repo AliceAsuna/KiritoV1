@@ -22,4 +22,11 @@ public interface ITableHeaderService {
      * @return 导出表头信息
      */
     List<MultiLevelHeaderVO> getExcelFieldByCategory(String category);
+
+    /**
+     * 根据模块名获取对应模块的表头信息
+     * @param category 模块
+     * @return 表头信息
+     */
+    List<FieldEntity> getTableFieldByCategoryWithTwoDataBase(String category);
 }

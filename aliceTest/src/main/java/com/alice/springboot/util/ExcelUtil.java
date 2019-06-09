@@ -295,8 +295,8 @@ public class ExcelUtil {
         }
     }
 
-    private static <T> void writeExcelCell(HSSFWorkbook excel, HSSFSheet sheet, List<MultiLevelHeaderVO> tableHeaders,
-                                           List<String> actualFields, int startRow, List<T> datas) throws Exception
+    private static <T> void writeExcelCell(HSSFWorkbook excel, HSSFSheet sheet, List<String> actualFields,
+                                           int startRow, List<T> datas) throws Exception
     {
         HSSFCellStyle cellStyle = excel.createCellStyle();
         cellStyle.setWrapText(true);
@@ -346,7 +346,7 @@ public class ExcelUtil {
 
         List<String> actualFields = getActualFields(tableHeaders);
 
-        writeExcelCell(excel, sheet, tableHeaders, actualFields, maxDeep, datas);
+        writeExcelCell(excel, sheet, actualFields, maxDeep, datas);
 
         return excel;
     }

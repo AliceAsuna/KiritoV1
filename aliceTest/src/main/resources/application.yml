@@ -1,9 +1,15 @@
 spring:
   datasource:
-        url: jdbc:mysql://localhost:3306/alice_test?serverTimezone=CTT&useUnicode=true&characterEncoding=utf8
+    test1:
+        jdbc-url: jdbc:mysql://localhost:3306/alice_test?serverTimezone=CTT&useUnicode=true&characterEncoding=utf8
+        driverClassName: com.mysql.cj.jdbc.Driver
+        username: root
+        password: soraSR11
+    test2:
+        jdbc-url: jdbc:mysql://localhost:3306/alice_test_two?serverTimezone=CTT&useUnicode=true&characterEncoding=utf8
         driverClassName: com.mysql.cj.jdbc.Driver
         username: root
         password: soraSR11
 
 mybatis:
-  mapper-locations: classpath:*/mapper/test/**.xml
+  mapper-locations: classpath:*/mapper/**.xml

@@ -22,12 +22,30 @@ public class TableHeaderController {
     private ITableHeaderService tableHeaderService;
 
     @RequestMapping(value = "/tableHeaderInfos", method = RequestMethod.GET)
-    public ResponseResult<List<FieldEntity>> exportExcel(String category)
+    public ResponseResult<List<FieldEntity>> getTableHeaderFields(String category)
     {
         ResponseResult<List<FieldEntity>> result = new ResponseResult<>();
 
         try {
             result.setData(tableHeaderService.getTableFieldByCategory(category));
+            result.setCode("200");
+            result.setMessage("查询" + category + "表头信息成功");
+            result.setStatus(ResponseStatusEnum.SUCCESS);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/tableHeaderTwoInfos", method = RequestMethod.GET)
+    public ResponseResult<List<FieldEntity>> getTableHeaderTwoFields(String category)
+    {
+        ResponseResult<List<FieldEntity>> result = new ResponseResult<>();
+
+        try {
+            result.setData(tableHeaderService.getTableFieldByCategoryWithTwoDataBase(category));
             result.setCode("200");
             result.setMessage("查询" + category + "表头信息成功");
             result.setStatus(ResponseStatusEnum.SUCCESS);

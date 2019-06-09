@@ -2,6 +2,7 @@ package com.alice.springboot.service.impl;
 
 import com.alice.springboot.entity.FieldEntity;
 import com.alice.springboot.mapper.test.TableHeaderMapper;
+import com.alice.springboot.mapper.testTwo.TableHeaderTwoMapper;
 import com.alice.springboot.model.MultiLevelHeaderVO;
 import com.alice.springboot.service.ITableHeaderService;
 import com.alice.springboot.util.CommonUtil;
@@ -18,6 +19,9 @@ import java.util.List;
 public class TableHeaderServiceImpl implements ITableHeaderService {
     @Autowired
     private TableHeaderMapper tableHeaderMapper;
+
+    @Autowired
+    private TableHeaderTwoMapper tableHeaderTwoMapper;
 
     @Override
     public List<FieldEntity> getTableFieldByCategory(String category) {
@@ -53,5 +57,10 @@ public class TableHeaderServiceImpl implements ITableHeaderService {
             fieldNameToHeaders.get(temp.getParent()).getChildrenHeader().add(temp);
         }
         return result;
+    }
+
+    @Override
+    public List<FieldEntity> getTableFieldByCategoryWithTwoDataBase(String category) {
+        return tableHeaderTwoMapper.getTableHeaderFieldByCategory(category);
     }
 }
