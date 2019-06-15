@@ -10,6 +10,10 @@ spring:
         driverClassName: com.mysql.cj.jdbc.Driver
         username: root
         password: soraSR11
+    mongodb:
+        host: 127.0.0.1
+        port: 27017
+        database: own_test_mongodb
 
 mybatis:
   mapper-locations: classpath:*/mapper/**.xml

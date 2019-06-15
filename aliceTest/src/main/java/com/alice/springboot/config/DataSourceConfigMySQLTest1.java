@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @MapperScan(basePackages = "com.alice.springboot.mapper.test", sqlSessionFactoryRef = "test1SqlSessionFactory")
-public class DataSourceConfig1 {
+public class DataSourceConfigMySQLTest1 {
 
     // 将这个对象放入Spring容器中
     @Bean(name = "test1DataSource")

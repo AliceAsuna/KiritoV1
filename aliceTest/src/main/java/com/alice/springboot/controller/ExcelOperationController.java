@@ -1,8 +1,6 @@
 package com.alice.springboot.controller;
 
-import com.alice.springboot.constants.ResponseStatusEnum;
 import com.alice.springboot.entity.FieldEntity;
-import com.alice.springboot.mapper.test.TableHeaderMapper;
 import com.alice.springboot.model.MultiLevelHeaderVO;
 import com.alice.springboot.model.ResponseResult;
 import com.alice.springboot.service.ITableHeaderService;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,7 +31,7 @@ public class ExcelOperationController {
 
         try {
             List<MultiLevelHeaderVO> tableHeaders = tableHeaderService.getExcelFieldByCategory(category);
-            HSSFWorkbook excel = ExcelUtil.getExcel2003(tableHeaders, null);
+            HSSFWorkbook excel = ExcelUtil.getExcel2003(tableHeaders, null, null);
 
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
             response.setHeader("Content-disposition", "atachment;filename=" + "测试" + ".xls");

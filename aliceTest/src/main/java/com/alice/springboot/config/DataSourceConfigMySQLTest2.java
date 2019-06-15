@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @MapperScan(basePackages = "com.alice.springboot.mapper.testTwo", sqlSessionFactoryRef = "test2SqlSessionFactory")
-public class DataSourceConfig2 {
+public class DataSourceConfigMySQLTest2 {
     @Bean(name = "test2DataSource")
     @ConfigurationProperties(prefix = "spring.datasource.test2")
     public DataSource getDateSource2()
