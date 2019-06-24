@@ -3,8 +3,6 @@ package com.alice.springboot.config;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,53 +28,45 @@ public class MongoConfig {
     @Bean(name = "mongoDbFactory")
     public MongoDbFactory mongoDbFactory() {
 
-        // 客户端配置（连接数，副本集群验证）
+        // 客户端
         MongoClientOptions.Builder builder = new MongoClientOptions.Builder();
-
-        //数据库参数，如最大连接数，等待时间，超时信息等
-        //builder.connectionsPerHost(properties.getMaxConnectionsPerHost());
-        //builder.minConnectionsPerHost(properties.getMinConnectionsPerHost());
-        //if (properties.getReplicaSet() != null) {
-        //    builder.requiredReplicaSetName(properties.getReplicaSet());
-        //}
-        //builder.threadsAllowedToBlockForConnectionMultiplier(
-        //        properties.getThreadsAllowedToBlockForConnectionMultiplier());
-        //builder.serverSelectionTimeout(properties.getServerSelectionTimeout());
-        builder.maxWaitTime(120000);
-        //builder.maxConnectionIdleTime(properties.getMaxConnectionIdleTime());
-        //builder.maxConnectionLifeTime(properties.getMaxConnectionLifeTime());
         builder.connectTimeout(10000);
-        //builder.socketTimeout(properties.getSocketTimeout());
-        //// builder.socketKeepAlive(properties.getSocketKeepAlive());
-        //builder.sslEnabled(properties.getSslEnabled());
-        //builder.sslInvalidHostNameAllowed(properties.getSslInvalidHostNameAllowed());
-        //builder.alwaysUseMBeans(properties.getAlwaysUseMBeans());
-        //builder.heartbeatFrequency(properties.getHeartbeatFrequency());
-        //builder.minHeartbeatFrequency(properties.getMinHeartbeatFrequency());
-        //builder.heartbeatConnectTimeout(properties.getHeartbeatConnectTimeout());
-        //builder.heartbeatSocketTimeout(properties.getHeartbeatSocketTimeout());
-        //builder.localThreshold(properties.getLocalThreshold());
+        builder.maxWaitTime(120000);
+
+        //数据库连接池其他参数，如最大连接数这些，可以参考着使用部分参数
+        //builder.connectionsPerHost();
+        //builder.minConnectionsPerHost();
+        //builder.requiredReplicaSetName();
+        //builder.threadsAllowedToBlockForConnectionMultiplier();
+        //builder.serverSelectionTimeout();
+        //builder.maxConnectionIdleTime();
+        //builder.maxConnectionLifeTime();
+        //builder.socketTimeout());
+        //builder.socketKeepAlive();
+        //builder.sslEnabled());
+        //builder.sslInvalidHostNameAllowed();
+        //builder.alwaysUseMBeans();
+        //builder.heartbeatFrequency();
+        //builder.minHeartbeatFrequency();
+        //builder.heartbeatConnectTimeout();
+        //builder.heartbeatSocketTimeout();
+        //builder.localThreshold();
 
         MongoClientOptions mongoClientOptions = builder.build();
 
-        // MongoDB地址列表
+        // MongoDB地址列表,如果有多个ip地址，那么配置文件里面可以用逗号分隔ip地址，这里再把每一个ip地址和端口号添加进list里面
         List<ServerAddress> serverAddresses = new ArrayList<>();
         ServerAddress serverAddress = new ServerAddress(host, port);
         serverAddresses.add(serverAddress);
 
-        // 连接认证
+        // 连接认证，如果设置了用户名和密码的话
         // MongoCredential mongoCredential = null;
-        // if (properties.getUsername() != null) {
-        // 	mongoCredential = MongoCredential.createScramSha1Credential(
-        // 			properties.getUsername(), properties.getAuthenticationDatabase() != null
-        // 					? properties.getAuthenticationDatabase() : properties.getDatabase(),
-        // 			properties.getPassword().toCharArray());
-        // }
+        // mongoCredential = MongoCredential.createScramSha1Credential();
 
-        // 创建认证客户端
+        // 创建认证客户端(存在用户名和密码)
         // MongoClient mongoClient = new MongoClient(serverAddresses, mongoCredential, mongoClientOptions);
 
-        // 创建非认证客户端
+        // 创建非认证客户端(没有设置mongodb数据库的用户名和密码)
         MongoClient mongoClient = new MongoClient(serverAddresses, mongoClientOptions);
 
         // 创建MongoDbFactory

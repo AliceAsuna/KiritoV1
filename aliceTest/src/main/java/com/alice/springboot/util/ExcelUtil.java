@@ -334,7 +334,7 @@ public class ExcelUtil {
     {
         if (CommonUtil.isEmpty(tableHeaders))
         {
-            return null;
+            return new HSSFWorkbook();
         }
 
         int maxDeep = getMaxDeep(tableHeaders);

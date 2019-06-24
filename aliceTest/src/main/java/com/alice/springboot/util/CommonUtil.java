@@ -30,7 +30,7 @@ public class CommonUtil {
      */
     public static boolean isEmpty(String string)
     {
-        if (null == string || string.isEmpty())
+        if (null == string || string.trim().isEmpty())
         {
             return true;
         }

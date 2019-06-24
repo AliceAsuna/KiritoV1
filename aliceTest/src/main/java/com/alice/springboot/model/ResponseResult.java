@@ -1,6 +1,7 @@
 package com.alice.springboot.model;
 
 import com.alice.springboot.constants.ResponseStatusEnum;
+import com.alice.springboot.util.CommonUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,5 +84,21 @@ public class ResponseResult<T> implements Serializable {
         this.code = "200";
         this.data = data;
         this.status = ResponseStatusEnum.SUCCESS;
+    }
+
+    public void addParams(List<String> parameters)
+    {
+        if (!CommonUtil.isEmpty(parameters))
+        {
+            this.params.addAll(parameters);
+        }
+    }
+
+    public void addParam(String parameter)
+    {
+        if (!CommonUtil.isEmpty(parameter))
+        {
+            this.params.add(parameter);
+        }
     }
 }

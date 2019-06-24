@@ -11,6 +11,10 @@ public class StringUtil {
      */
     public static String getInitialsUp(String string)
     {
+        if (CommonUtil.isEmpty(string))
+        {
+            return "";
+        }
         byte[] items;
         try
         {
