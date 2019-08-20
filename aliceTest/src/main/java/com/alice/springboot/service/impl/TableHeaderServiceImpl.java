@@ -4,6 +4,7 @@ import com.alice.springboot.entity.FieldEntity;
 import com.alice.springboot.mapper.test.TableHeaderMapper;
 import com.alice.springboot.mapper.testTwo.TableHeaderTwoMapper;
 import com.alice.springboot.model.MultiLevelHeaderVO;
+import com.alice.springboot.model.TableHeaderTestVO;
 import com.alice.springboot.service.ITableHeaderService;
 import com.alice.springboot.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,10 @@ public class TableHeaderServiceImpl implements ITableHeaderService {
     @Override
     public List<FieldEntity> getTableFieldByCategoryWithTwoDataBase(String category) {
         return tableHeaderTwoMapper.getTableHeaderFieldByCategory(category);
+    }
+
+    @Override
+    public List<TableHeaderTestVO> getTableHeaderTestVOs() {
+        return tableHeaderTwoMapper.getTableHeaderTestVOs();
     }
 }

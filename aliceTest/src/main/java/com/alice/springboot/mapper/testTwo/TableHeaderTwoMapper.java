@@ -1,6 +1,7 @@
 package com.alice.springboot.mapper.testTwo;
 
 import com.alice.springboot.entity.FieldEntity;
+import com.alice.springboot.model.TableHeaderTestVO;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface TableHeaderTwoMapper {
      * @return 表头信息
      */
     List<FieldEntity> getExcelHeaderFieldByCategory(String category);
+
+    List<TableHeaderTestVO> getTableHeaderTestVOs();
 }

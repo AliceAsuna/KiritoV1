@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddressList;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -17,6 +18,10 @@ import java.util.stream.Collectors;
  * Excel工具类
  */
 public class ExcelUtil {
+
+    private static final int EXCEL_MAX_ROW = 65535;
+
+    private static final int EXCEL_MAX_COL = 255;
 
     private static int getNodeMaxDeep(MultiLevelHeaderVO tableHeader)
     {
@@ -59,27 +64,19 @@ public class ExcelUtil {
 
     private static int getSuitableCellWidth(String cellValue)
     {
-        int width = Constants.EIGHT;
+        int width = Constants.EIGHT * Constants.TWO_HUNDRED_FIFTY_SIX;
 
-        if (cellValue.length() <= Constants.EIGHT)
+        if (cellValue.length() <= Constants.TEN)
         {
-            return width * Constants.TWO_HUNDRED_FIFTY_SIX * Constants.THREE / Constants.TWO;
-        }
-
-        if (cellValue.length() <= Constants.TWENTY)
-        {
-            width = Constants.SIX * Constants.TWO_HUNDRED_FIFTY_SIX  + Constants.NINE * Constants.TWO_HUNDRED_FIFTY_SIX / Constants.TEN;
-            return width * Constants.THREE / Constants.TWO;
+            return width * Constants.THREE;
         }
 
         if (cellValue.length() <= Constants.FOUR * Constants.TEN)
         {
-            width = Constants.TWENTY * Constants.TWO_HUNDRED_FIFTY_SIX + Constants.NINE * Constants.TWO_HUNDRED_FIFTY_SIX / Constants.TEN;
-            return width * Constants.THREE / Constants.TWO;
+            return width * Constants.NINE / Constants.TWO;
         }
 
-        width = Constants.TWO_HUNDRED_FIFTY_SIX * Constants.FOUR * Constants.SEVEN + Constants.NINE * Constants.TWO_HUNDRED_FIFTY_SIX / Constants.TEN;
-        return width * Constants.THREE / Constants.TWO;
+        return width * Constants.SIX;
     }
 
     private static int getChildrenMaxCount(MultiLevelHeaderVO tableHeader)
@@ -353,5 +350,74 @@ public class ExcelUtil {
         writeExcelCell(excel, sheet, actualFields, maxDeep, datas, specialFields);
 
         return excel;
+    }
+
+    private static int getRowStart(int rowStart)
+    {
+        if (rowStart < 0 || rowStart > EXCEL_MAX_ROW)
+        {
+            rowStart = 0;
+        }
+
+        return rowStart;
+    }
+
+    private static int getRowEnd(int rowEnd)
+    {
+        if (rowEnd < 0 || rowEnd > EXCEL_MAX_ROW)
+        {
+            rowEnd = EXCEL_MAX_ROW;
+        }
+
+        return rowEnd;
+    }
+
+    private static int getColStart(int colStart)
+    {
+        if (colStart < 0 || colStart > EXCEL_MAX_COL)
+        {
+            colStart = 0;
+        }
+
+        return colStart;
+    }
+
+    private static int getColEnd(int colEnd)
+    {
+        if (colEnd < 0 || colEnd > EXCEL_MAX_COL)
+        {
+            colEnd = EXCEL_MAX_COL;
+        }
+
+        return colEnd;
+    }
+
+    public static <T> void setDropDownList(int rowStart, int rowEnd, int colStart, int colEnd,
+                                           List<String> dropDownListValues, HSSFSheet excelSheet)
+    {
+        if (CommonUtil.isEmpty(dropDownListValues))
+        {
+            return;
+        }
+
+        String[] list = new  String[dropDownListValues.size()];
+
+        int i = 0;
+        for (String dropDownListValue : dropDownListValues)
+        {
+            list[i] = dropDownListValue;
+            i++;
+        }
+
+        rowStart = getRowStart(rowStart);
+        rowEnd = getRowEnd(rowEnd);
+        colStart = getColStart(colStart);
+        colEnd = getColEnd(colEnd);
+
+        CellRangeAddressList regions = new CellRangeAddressList(rowStart, rowEnd, colStart, colEnd);
+        DVConstraint constraint = DVConstraint.createExplicitListConstraint(list);
+        HSSFDataValidation dataValidation = new HSSFDataValidation(regions, constraint);
+
+        excelSheet.addValidationData(dataValidation);
     }
 }

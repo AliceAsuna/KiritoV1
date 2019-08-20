@@ -3,6 +3,7 @@ package com.alice.springboot.controller;
 import com.alice.springboot.entity.FieldEntity;
 import com.alice.springboot.model.MultiLevelHeaderVO;
 import com.alice.springboot.model.ResponseResult;
+import com.alice.springboot.model.TableHeaderTestVO;
 import com.alice.springboot.service.ITableHeaderService;
 import com.alice.springboot.util.ExcelUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -31,7 +32,8 @@ public class ExcelOperationController {
 
         try {
             List<MultiLevelHeaderVO> tableHeaders = tableHeaderService.getExcelFieldByCategory(category);
-            HSSFWorkbook excel = ExcelUtil.getExcel2003(tableHeaders, null, null);
+            List<TableHeaderTestVO> datas = tableHeaderService.getTableHeaderTestVOs();
+            HSSFWorkbook excel = ExcelUtil.getExcel2003(tableHeaders, datas, null);
 
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
             response.setHeader("Content-disposition", "atachment;filename=" + "测试" + ".xls");

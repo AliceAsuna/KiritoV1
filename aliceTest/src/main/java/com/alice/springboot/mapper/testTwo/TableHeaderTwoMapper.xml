@@ -11,4 +11,9 @@
     <select id="getExcelHeaderFieldByCategory" resultType="com.alice.springboot.entity.FieldEntity">
         select * from alice_table_header where isExportField = 1 and category = #{param1} order by exportIndex;
     </select>
+
+    <select id="getTableHeaderTestVOs" resultType="com.alice.springboot.model.TableHeaderTestVO">
+        select * from test_table_header_export
+    </select>
+
 </mapper>

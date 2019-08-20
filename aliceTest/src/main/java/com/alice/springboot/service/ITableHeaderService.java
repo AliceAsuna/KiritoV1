@@ -2,6 +2,7 @@ package com.alice.springboot.service;
 
 import com.alice.springboot.entity.FieldEntity;
 import com.alice.springboot.model.MultiLevelHeaderVO;
+import com.alice.springboot.model.TableHeaderTestVO;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface ITableHeaderService {
      * @return 表头信息
      */
     List<FieldEntity> getTableFieldByCategoryWithTwoDataBase(String category);
+
+    List<TableHeaderTestVO> getTableHeaderTestVOs();
 }
